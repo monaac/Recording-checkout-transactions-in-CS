@@ -1,0 +1,74 @@
+using System;
+using System.Collections.Generic;
+
+namespace CheckoutTransactions
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            List<Transaction> transactions = new List<Transaction>();
+
+            while (true)
+            {
+                Console.WriteLine("1. Record transaction");
+                Console.WriteLine("2. View transactions");
+                Console.WriteLine("3. Exit");
+
+                Console.Write("Enter your choice: ");
+                int choice = Convert.ToInt32(Console.ReadLine());
+
+                if (choice == 1)
+                {
+                    Console.Write("Enter item name: ");
+                    string itemName = Console.ReadLine();
+
+                    Console.Write("Enter item price: ");
+                    double itemPrice = Convert.ToDouble(Console.ReadLine());
+
+                    Console.Write("Enter quantity: ");
+                    int quantity = Convert.ToInt32(Console.ReadLine());
+
+                    transactions.Add(new Transaction(itemName, itemPrice, quantity));
+
+                    Console.WriteLine("Transaction recorded successfully!");
+                }
+                else if (choice == 2)
+                {
+                    Console.WriteLine("Transaction history:");
+                    Console.WriteLine("Item\tPrice\tQuantity\tTotal");
+                    double totalAmount = 0;
+                    foreach (Transaction transaction in transactions)
+                    {
+                        Console.WriteLine(transaction.ItemName + "\t" + transaction.ItemPrice + "\t" + transaction.Quantity + "\t" + transaction.Total);
+                        totalAmount += transaction.Total;
+                    }
+                    Console.WriteLine("Total amount: " + totalAmount);
+                }
+                else if (choice == 3)
+                {
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine("Invalid choice. Try again.");
+                }
+            }
+        }
+    }
+
+    class Transaction
+    {
+        public string ItemName { get; set; }
+        public double ItemPrice { get; set; }
+        public int Quantity { get; set; }
+        public double Total { get { return ItemPrice * Quantity; } }
+
+        public Transaction(string itemName, double itemPrice, int quantity)
+        {
+            ItemName = itemName;
+            ItemPrice = itemPrice;
+            Quantity = quantity;
+        }
+    }
+}
